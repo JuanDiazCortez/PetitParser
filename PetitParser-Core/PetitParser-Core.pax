@@ -1,0 +1,254 @@
+﻿| package |
+package := Package name: 'PetitParser-Core'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPFailure;
+	add: #PPMemento;
+	add: #PPStream;
+	add: #PPToken;
+	add: #Pragma;
+	add: #Scanner;
+	yourself.
+
+package methodNames
+	add: #PPCommaSeparatedParser -> #row;
+	add: #PPCommaSeparatedParser -> #rows;
+	add: #PPEndOfInputParser -> #parseOn:;
+	add: #PPFailingParser -> #parseOn:;
+	add: #PPGreedyRepeatingParser -> #parseOn:;
+	add: #PPLazyRepeatingParser -> #parseOn:;
+	add: #PPLiteralObjectParser -> #parseOn:;
+	add: #PPLiteralSequenceParser -> #parseOn:;
+	add: #PPMemoizedParser -> #parseOn:;
+	add: #PPNotParser -> #parseOn:;
+	add: #PPParser -> #starLazy:;
+	add: #PPPredicateObjectParser -> #parseOn:;
+	add: #PPPredicateSequenceParser -> #parseOn:;
+	add: #PPTokenParser -> #defaultTokenClass;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\d7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\PetitParser-Parsers\PetitParser-Parsers'
+	'..\Petit-Prerrequisites').
+
+package setManualPrerequisites: #(
+	'Petit-Prerrequisites').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #PPFailure
+	instanceVariableNames: 'message position'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #PPMemento
+	instanceVariableNames: 'result count position'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #PPToken
+	instanceVariableNames: 'collection start stop value'
+	classVariableNames: 'NewLineParser'
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #Pragma
+	instanceVariableNames: 'method keyword arguments'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #Scanner
+	instanceVariableNames: 'source mark hereChar aheadChar token tokenType currentComment buffer typeTable'
+	classVariableNames: 'AllowBlockArgumentAssignment AllowUnderscoreAssignments AllowUnderscoreSelectors AllowUnicharSymbol DoItCharacter TypeTable'
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ReadStream subclass: #PPStream
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!PPCommaSeparatedParser methodsFor!
+
+row
+	^ (cell delimitedBy: $, asParser token) ==> [ :nodes | nodes reject: [ :each | each class = PPToken ] ]!
+
+rows
+	^ (row delimitedBy: endOfLine)  ==> [ :nodes | nodes reject: [ :each | each class = PPToken ] ]! !
+!PPCommaSeparatedParser categoriesFor: #row!public! !
+!PPCommaSeparatedParser categoriesFor: #rows!public! !
+
+!PPEndOfInputParser methodsFor!
+
+parseOn: aStream
+	| position result |
+	position := aStream position.
+	result := parser parseOn: aStream.
+	(result isPetitFailure or: [ aStream atEnd ])
+		ifTrue: [ ^ result ].
+	result := PPFailure
+		message: 'end of input expected'
+		at: aStream position.
+	aStream position: position.
+	^ result! !
+!PPEndOfInputParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPFailingParser methodsFor!
+
+parseOn: aStream
+	^ PPFailure message: message at: aStream position! !
+!PPFailingParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPGreedyRepeatingParser methodsFor!
+
+parseOn: aStream
+	| start element elements positions |
+	start := aStream position.
+	elements := OrderedCollection new.
+	[ elements size < min ] whileTrue: [ 
+		(element := parser parseOn: aStream) isPetitFailure ifTrue: [ 
+			aStream position: start.
+			^ element ].
+		elements addLast: element ].
+	positions := OrderedCollection with: aStream position.
+	[ elements size < max and: [ (element := parser parseOn: aStream) isPetitFailure not ] ] whileTrue: [
+		elements addLast: element.
+		positions addLast: aStream position ].
+	[ positions isEmpty ] whileFalse: [
+		aStream position: positions last.
+		element := limit parseOn: aStream.
+		element isPetitFailure ifFalse: [
+			aStream position: positions last.
+			^ elements asArray ].
+		elements isEmpty ifTrue: [
+			aStream position: start.
+			^ element ].
+		elements removeLast.
+		positions removeLast ].
+	aStream position: start.
+	^ PPFailure message: 'overflow' at: start! !
+!PPGreedyRepeatingParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPLazyRepeatingParser methodsFor!
+
+parseOn: aStream
+	| start element elements |
+	start := aStream position.
+	elements := OrderedCollection new.
+	[ elements size < min ] whileTrue: [
+		(element := parser parseOn: aStream) isPetitFailure ifTrue: [
+			aStream position: start.
+			^ element ].
+		elements addLast: element ].
+	[ self matchesLimitOn: aStream ] whileFalse: [
+		elements size < max ifFalse: [
+			aStream position: start.
+			^ PPFailure message: 'overflow' at: start ].
+		element := parser parseOn: aStream.
+		element isPetitFailure ifTrue: [
+			aStream position: start.
+			^ element ].
+		elements addLast: element ].
+	^ elements asArray! !
+!PPLazyRepeatingParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPLiteralObjectParser methodsFor!
+
+parseOn: aStream
+	^ (aStream atEnd not and: [ literal = aStream uncheckedPeek ])
+		ifFalse: [ PPFailure message: message at: aStream position ]
+		ifTrue: [ aStream next ]! !
+!PPLiteralObjectParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPLiteralSequenceParser methodsFor!
+
+parseOn: aStream
+	| position result |
+	position := aStream position.
+	result := aStream next: size.
+	literal = result ifTrue: [ ^ result ].
+	aStream position: position.
+	^ PPFailure message: message at: aStream position! !
+!PPLiteralSequenceParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPMemoizedParser methodsFor!
+
+parseOn: aStream
+	| memento |
+	stream == aStream
+		ifFalse: [ self reset: aStream ].
+	memento := (buffer at: stream position + 1)
+		ifNil: [ buffer at: stream position + 1 put: PPMemento new ].
+	memento position isNil
+		ifTrue: [
+			memento result: (stream size - stream position + 2 < memento count
+				ifTrue: [ PPFailure message: 'overflow' at: stream position ]
+				ifFalse: [ memento increment. parser parseOn: stream ]).
+			memento position: stream position ]
+		ifFalse: [ stream position: memento position ].
+	^ memento result! !
+!PPMemoizedParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPNotParser methodsFor!
+
+parseOn: aStream
+	| element position |
+	position := aStream position.
+	element := parser parseOn: aStream.
+	aStream position: position.
+	^ element isPetitFailure
+		ifFalse: [ PPFailure message: '' at: aStream position ]! !
+!PPNotParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPParser methodsFor!
+
+starLazy: aParser
+	"Answer a new parser that parses the receiver zero or more times until it reaches aParser. This is a lazy non-blind implementation of the star operator. aParser is not consumed."
+	
+	^ PPLazyRepeatingParser on: self limit: aParser! !
+!PPParser categoriesFor: #starLazy:!operators-repeating!public! !
+
+!PPPredicateObjectParser methodsFor!
+
+parseOn: aStream
+	^ (aStream atEnd not and: [ predicate value: aStream uncheckedPeek ])
+		ifFalse: [ PPFailure message: predicateMessage at: aStream position ]
+		ifTrue: [ aStream next ]! !
+!PPPredicateObjectParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPPredicateSequenceParser methodsFor!
+
+parseOn: aStream
+	| position result |
+	position := aStream position.
+	result := aStream next: size.
+	(result size = size and: [ predicate value: result ])
+		ifTrue: [ ^ result ].
+	aStream position: position.
+	^ PPFailure message: predicateMessage at: aStream position! !
+!PPPredicateSequenceParser categoriesFor: #parseOn:!parsing!public! !
+
+!PPTokenParser methodsFor!
+
+defaultTokenClass
+	^ PPToken! !
+!PPTokenParser categoriesFor: #defaultTokenClass!public! !
+
+"End of package definition"!
+

@@ -1,0 +1,57 @@
+﻿| package |
+package := Package name: 'PetitTests-Core'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPAbstractParserTest;
+	add: #PPAnalyzerTest;
+	add: #PPCompositeParserTest;
+	add: #PPParserResource;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\d7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\PetitParser-Core\PetitParser-Core'
+	'..\PetitParser-Parsers\PetitParser-Parsers'
+	'..\..\d7\Core\Contributions\Camp Smalltalk\SUnit\SUnit').
+
+package!
+
+"Class Definitions"!
+
+TestCase subclass: #PPAbstractParserTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPAnalyzerTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPCompositeParserTest
+	instanceVariableNames: 'parser result'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestResource subclass: #PPParserResource
+	instanceVariableNames: 'parsers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

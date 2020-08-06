@@ -1,0 +1,97 @@
+﻿| package |
+package := Package name: 'PetitAnalyzer-Core'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPBlockReplaceRule;
+	add: #PPListPattern;
+	add: #PPParserReplaceRule;
+	add: #PPPattern;
+	add: #PPProcessor;
+	add: #PPReplaceRule;
+	add: #PPRewriter;
+	add: #PPRule;
+	add: #PPSearcher;
+	add: #PPSearchRule;
+	add: #PPSentinel;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\d7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\PetitParser-Parsers\PetitParser-Parsers').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #PPProcessor
+	instanceVariableNames: 'searches context'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #PPRule
+	instanceVariableNames: 'owner search'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPPattern
+	instanceVariableNames: 'verificationBlock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPEpsilonParser subclass: #PPSentinel
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: 'current instance'!
+PPPattern subclass: #PPListPattern
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPProcessor subclass: #PPRewriter
+	instanceVariableNames: 'changed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPProcessor subclass: #PPSearcher
+	instanceVariableNames: 'answer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPRule subclass: #PPReplaceRule
+	instanceVariableNames: 'verificationBlock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPRule subclass: #PPSearchRule
+	instanceVariableNames: 'answerBlock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPReplaceRule subclass: #PPBlockReplaceRule
+	instanceVariableNames: 'replaceBlock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPReplaceRule subclass: #PPParserReplaceRule
+	instanceVariableNames: 'replaceParser'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

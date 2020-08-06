@@ -1,0 +1,36 @@
+﻿| package |
+package := Package name: 'PetitSQL-Core'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPSqlGrammar;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\PetitParser-Parsers\PetitParser-Parsers').
+
+package!
+
+"Class Definitions"!
+
+PPCompositeParser subclass: #PPSqlGrammar
+	instanceVariableNames: 'command number condition createCommand deleteCommand insertCommand selectCommand updateCommand expression sequence whereClause limitClause operator comparison logic identifier string'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

@@ -1,0 +1,104 @@
+﻿| package |
+package := Package name: 'PetitTests-Tests'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPArithmeticParserTest;
+	add: #PPComposedTest;
+	add: #PPExpressionParserTest;
+	add: #PPExtensionTest;
+	add: #PPLambdaParserTest;
+	add: #PPObjectTest;
+	add: #PPParserTest;
+	add: #PPPredicateTest;
+	add: #PPScriptingTest;
+	add: #PPSearcherTest;
+	add: #PPTokenTest;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\testd7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\PetitAnalyzer-Core\PetitAnalyzer-Core'
+	'..\PetitParser-Core\PetitParser-Core'
+	'..\PetitParser-Parsers\PetitParser-Parsers'
+	'..\Petit-Prerrequisites'
+	'..\PetitTests-Core\PetitTests-Core').
+
+package setManualPrerequisites: #(
+	'Petit-Prerrequisites').
+
+package!
+
+"Class Definitions"!
+
+PPAbstractParserTest subclass: #PPComposedTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPExtensionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPObjectTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPParserTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPPredicateTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPScriptingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPSearcherTest
+	instanceVariableNames: 'searcher'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPAbstractParserTest subclass: #PPTokenTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPCompositeParserTest subclass: #PPArithmeticParserTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPCompositeParserTest subclass: #PPLambdaParserTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPArithmeticParserTest subclass: #PPExpressionParserTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

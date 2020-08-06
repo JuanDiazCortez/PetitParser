@@ -1,0 +1,311 @@
+﻿| package |
+package := Package name: 'PetitParser-Parsers'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPActionParser;
+	add: #PPAndParser;
+	add: #PPArithmeticParser;
+	add: #PPChoiceParser;
+	add: #PPCommaSeparatedParser;
+	add: #PPCompositeParser;
+	add: #PPDelegateParser;
+	add: #PPEndOfInputParser;
+	add: #PPEpsilonParser;
+	add: #PPExpressionParser;
+	add: #PPFailingParser;
+	add: #PPFlattenParser;
+	add: #PPGreedyRepeatingParser;
+	add: #PPLambdaParser;
+	add: #PPLazyRepeatingParser;
+	add: #PPLimitedRepeatingParser;
+	add: #PPListParser;
+	add: #PPLiteralObjectParser;
+	add: #PPLiteralParser;
+	add: #PPLiteralSequenceParser;
+	add: #PPMemoizedParser;
+	add: #PPNotParser;
+	add: #PPOptionalParser;
+	add: #PPParser;
+	add: #PPPluggableParser;
+	add: #PPPossessiveRepeatingParser;
+	add: #PPPredicateObjectParser;
+	add: #PPPredicateParser;
+	add: #PPPredicateSequenceParser;
+	add: #PPRepeatingParser;
+	add: #PPSequenceParser;
+	add: #PPTokenParser;
+	add: #PPTrimmingParser;
+	add: #PPUnresolvedParser;
+	add: #PPWrappingParser;
+	yourself.
+
+package methodNames
+	add: #BlockClosure -> #asParser;
+	add: #Character -> #-;
+	add: #Collection -> #asChoiceParser;
+	add: #Collection -> #asSequenceParser;
+	add: #Object -> #asParser;
+	add: #String -> #asParser;
+	add: #Symbol -> #asParser;
+	add: #UndefinedObject -> #asParser;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\d7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\d7\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
+	'..\PetitParser-Tools\PetitParser-Tools').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #PPParser
+	instanceVariableNames: 'properties'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPDelegateParser
+	instanceVariableNames: 'parser'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPEpsilonParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPFailingParser
+	instanceVariableNames: 'message'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPListParser
+	instanceVariableNames: 'parsers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPLiteralParser
+	instanceVariableNames: 'literal message'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPPluggableParser
+	instanceVariableNames: 'block'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPPredicateParser
+	instanceVariableNames: 'predicate predicateMessage negated negatedMessage'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPParser subclass: #PPUnresolvedParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPActionParser
+	instanceVariableNames: 'block'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPAndParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPCompositeParser
+	instanceVariableNames: 'dependencies'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPEndOfInputParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPExpressionParser
+	instanceVariableNames: 'operators'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPFlattenParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPMemoizedParser
+	instanceVariableNames: 'stream buffer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPNotParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPOptionalParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPRepeatingParser
+	instanceVariableNames: 'min max'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPDelegateParser subclass: #PPTrimmingParser
+	instanceVariableNames: 'trimmer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPActionParser subclass: #PPWrappingParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPCompositeParser subclass: #PPArithmeticParser
+	instanceVariableNames: 'terms addition factors multiplication power primary parentheses number'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPCompositeParser subclass: #PPCommaSeparatedParser
+	instanceVariableNames: 'row cell rows endOfLine whitespace nonComma'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPCompositeParser subclass: #PPLambdaParser
+	instanceVariableNames: 'expression abstraction application variable'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPFlattenParser subclass: #PPTokenParser
+	instanceVariableNames: 'tokenClass'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPRepeatingParser subclass: #PPLimitedRepeatingParser
+	instanceVariableNames: 'limit'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPRepeatingParser subclass: #PPPossessiveRepeatingParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPLimitedRepeatingParser subclass: #PPGreedyRepeatingParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPLimitedRepeatingParser subclass: #PPLazyRepeatingParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPListParser subclass: #PPChoiceParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPListParser subclass: #PPSequenceParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPLiteralParser subclass: #PPLiteralObjectParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPLiteralParser subclass: #PPLiteralSequenceParser
+	instanceVariableNames: 'size'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPPredicateParser subclass: #PPPredicateObjectParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PPPredicateParser subclass: #PPPredicateSequenceParser
+	instanceVariableNames: 'size'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!BlockClosure methodsFor!
+
+asParser
+	"Answer a parser implemented in the receiving one-argument block."
+
+	^ PPPluggableParser on: self! !
+!BlockClosure categoriesFor: #asParser!public! !
+
+!Character methodsFor!
+
+- aCharacter
+	"Create a range of characters between the receiver and the argument."
+	
+	^ PPPredicateObjectParser between: self and: aCharacter! !
+!Character categoriesFor: #-!public! !
+
+!Collection methodsFor!
+
+asChoiceParser
+	^ PPChoiceParser withAll: (self collect: [ :each | each asParser ])!
+
+asSequenceParser
+	^ PPSequenceParser withAll: (self collect: [ :each | each asParser ])! !
+!Collection categoriesFor: #asChoiceParser!public! !
+!Collection categoriesFor: #asSequenceParser!public! !
+
+!Object methodsFor!
+
+asParser
+	"Answer a parser accepting the receiving object."
+
+	^ PPPredicateObjectParser expect: self! !
+!Object categoriesFor: #asParser!public! !
+
+!String methodsFor!
+
+asParser
+	"Answer a parser that accepts the receiving string."
+
+	^ PPLiteralSequenceParser on: self! !
+!String categoriesFor: #asParser!public! !
+
+!Symbol methodsFor!
+
+asParser
+	"Answer a predicate parser named after the receiving symbol. Possible symbols are the method selectors on the class-side of PPPredicateObjectParser."
+
+	^ PPPredicateObjectParser perform: self! !
+!Symbol categoriesFor: #asParser!public! !
+
+!UndefinedObject methodsFor!
+
+asParser
+	"Answer a parser that succeeds and does not consume anything."
+	
+	^ PPEpsilonParser new! !
+!UndefinedObject categoriesFor: #asParser!public! !
+
+"End of package definition"!
+

@@ -1,0 +1,219 @@
+﻿| package |
+package := Package name: 'Petit-Prerrequisites'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package methodNames
+	add: #AnsiString -> #asText;
+	add: #BlockClosure -> #isBlock;
+	add: #Boolean -> #==>;
+	add: #Character -> #asParser;
+	add: #Character -> #sameAs:;
+	add: #Character -> #sqlToken;
+	add: #Collection -> #gather:;
+	add: #CompiledCode -> #isCollection;
+	add: #Object -> #isBlock;
+	add: #Object -> #isCollection;
+	add: #Object -> #isPetitFailure;
+	add: #Object -> #isPetitParser;
+	add: #SequenceableCollection -> #asPetitStream;
+	add: #SequenceableCollection -> #reversed;
+	add: #Stream -> #asPetitStream;
+	add: #String -> #asInteger;
+	add: #String -> #asSignedInteger;
+	add: #String -> #sqlToken;
+	add: #Symbol -> #value:;
+	add: 'Object class' -> #isPetitFailure;
+	add: 'SmallInteger class' -> #maxVal;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\d7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'PetitParser-Parsers\PetitParser-Parsers').
+
+package!
+
+"Class Definitions"!
+
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!AnsiString methodsFor!
+
+asText
+
+	^self ! !
+!AnsiString categoriesFor: #asText!public! !
+
+!BlockClosure methodsFor!
+
+isBlock
+
+	^ true! !
+!BlockClosure categoriesFor: #isBlock!public! !
+
+!Boolean methodsFor!
+
+==> aBlock
+	"The material conditional, also known as the material implication or truth functional conditional.
+	Correspond to not ... or ... and does not correspond to the English if...then... construction.
+		
+	 known as:
+			b if a 
+			a implies b
+			if a then b
+			b is a consequence of a
+			a therefore b (but note: 'it is raining therefore it is cloudy' is implication; 'it is autumn therefore the leaves are falling' is equivalence).
+		
+	Here is the truth table for material implication:
+	
+	   p   |   q   |   p ==> q
+	-------|-------|-------------
+	   T   |   T   |      T
+	   T   |   F   |      F
+	   F   |   T   |      T
+	   F   |   F   |      T
+	"
+	"true ==> [true] >>> true"
+	"true ==> [false] >>> false"
+	"false ==> [true] >>> true"
+	"false ==> [false] >>> true"
+
+	^ self not or: [ aBlock value ]! !
+!Boolean categoriesFor: #==>!public! !
+
+!Character methodsFor!
+
+asParser
+	"Answer a parser that accepts the receiving character."
+	
+	^ PPLiteralObjectParser on: self!
+
+sameAs: aCharacter 
+	"Answer whether the receiver is equal to aCharacter, ignoring case"
+	
+	self == aCharacter ifTrue: [ ^true ].
+	^self asLowercase == aCharacter asLowercase!
+
+sqlToken
+
+	^ self asParser caseInsensitive token trim ! !
+!Character categoriesFor: #asParser!public! !
+!Character categoriesFor: #sameAs:!public! !
+!Character categoriesFor: #sqlToken!public! !
+
+!Collection methodsFor!
+
+gather: aBlock
+	^ Array streamContents:
+		[:stream |
+		self do: [:ea | stream nextPutAll: (aBlock value: ea)]]! !
+!Collection categoriesFor: #gather:!public! !
+
+!CompiledCode methodsFor!
+
+isCollection
+	"We should override it because most of collection methods are not working for CompiledMethod. It is special class which needs to be ByteArray by VM. But it is not behaves like ByteArray from user perspective.
+	And some tools uses isCollection check for specific behaviour which will fail for CompiledMethod"
+	^false! !
+!CompiledCode categoriesFor: #isCollection!public! !
+
+!Object methodsFor!
+
+isBlock
+
+	^ false!
+
+isCollection
+
+	^ false !
+
+isPetitFailure
+	^ false!
+
+isPetitParser
+	^ false! !
+!Object categoriesFor: #isBlock!public! !
+!Object categoriesFor: #isCollection!public! !
+!Object categoriesFor: #isPetitFailure!public! !
+!Object categoriesFor: #isPetitParser!public! !
+
+!Object class methodsFor!
+
+isPetitFailure
+	^ false! !
+!Object class categoriesFor: #isPetitFailure!public! !
+
+!SequenceableCollection methodsFor!
+
+asPetitStream
+	^(Smalltalk at:#PPStream) on: self!
+
+reversed
+	"Answer a copy of the receiver with element order reversed."
+	"Example: 'frog' reversed"
+
+	self reverse! !
+!SequenceableCollection categoriesFor: #asPetitStream!public! !
+!SequenceableCollection categoriesFor: #reversed!public! !
+
+!SmallInteger class methodsFor!
+
+maxVal
+
+	^self maximum! !
+!SmallInteger class categoriesFor: #maxVal!public! !
+
+!Stream methodsFor!
+
+asPetitStream
+	^ self contents asPetitStream! !
+!Stream categoriesFor: #asPetitStream!public! !
+
+!String methodsFor!
+
+asInteger 
+	"Return the integer present in the receiver, or nil. In case of float, returns the integer part."
+	"'1' asInteger >>> 1"
+	"'-1' asInteger >>> -1"
+	"'10' asInteger >>> 10"
+	"'a' asInteger >>> nil"
+	"'1.234' asInteger >>> 1"
+	^self asSignedInteger
+!
+
+asSignedInteger 
+	"Returns the first signed integer it can find or nil."
+
+	| start stream |
+	start := self findFirst: [:char | char isDigit].
+	start isZero ifTrue: [^ nil].
+	stream := self readStream position: start - 1.
+	((stream position ~= 0) and: [stream peekBack = $-])
+		ifTrue: [stream back].
+	^ Integer readFrom: stream!
+
+sqlToken
+	^ self asParser caseInsensitive token trim! !
+!String categoriesFor: #asInteger!public! !
+!String categoriesFor: #asSignedInteger!public! !
+!String categoriesFor: #sqlToken!public! !
+
+!Symbol methodsFor!
+
+value: anObject 
+	^anObject perform: self.! !
+!Symbol categoriesFor: #value:!public! !
+
+"End of package definition"!
+

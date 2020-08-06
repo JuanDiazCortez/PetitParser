@@ -1,0 +1,39 @@
+﻿| package |
+package := Package name: 'PetitJson-Tests'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPJsonGrammarTest;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\d7\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\PetitJson-Core\PetitJson-Core'
+	'..\PetitTests-Core\PetitTests-Core'
+	'..\..\d7\Core\Contributions\Camp Smalltalk\SUnit\SUnit').
+
+package!
+
+"Class Definitions"!
+
+PPCompositeParserTest subclass: #PPJsonGrammarTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

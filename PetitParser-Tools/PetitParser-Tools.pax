@@ -1,0 +1,36 @@
+﻿| package |
+package := Package name: 'PetitParser-Tools'.
+package paxVersion: 1;
+	basicComment: ''.
+
+
+package classNames
+	add: #PPCharSetPredicate;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\d7\Core\Object Arts\Dolphin\Base\Dolphin').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #PPCharSetPredicate
+	instanceVariableNames: 'block classification'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
